@@ -25,11 +25,27 @@
     <div class="row">
       <div class="col-md-3">
         <div class="room-list">
-          <h1 class="header">Bloc Chat</h1>
+          <div class="chat-title">
+            <h1 class="header">Bloc Chat</h1>
+            <button ng-click="createRoom()" class="header btn btn-default">New Room</button>
+            <!-- button triggered input -->
+            <div class="input-group">
+            <input type="text" class="form-control" placeholder="Enter the name of the chatroom">
+            </div>
+          </div>
+          <ul ng-repeat="room in rooms">
+            <li class="rooms">{{room.$id}}</li>
+          </ul>
         </div>
       </div>
       <div class="col-md-9">
         <h1>Chat</h1>
+        <div class="chat-container">
+        </div>
+        <div class="input-group chat-input">
+          <textarea class="form-control custom-control" rows="3" style="resize:none" placeholder="Hola! Enter your message."></textarea>
+          <span class="input-group-addon btn btn-secondary">Send</span>
+        </div>
       </div>
     </div>
     </div>
