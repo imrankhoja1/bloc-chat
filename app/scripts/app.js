@@ -11,7 +11,7 @@ var app = angular.module('BlocChat', [
 
     $scope.createRoom = function() {
       // trigger modal
-      $modal.open;
+      Room.add();
     }
   }]);
 /*
@@ -24,14 +24,22 @@ var app = angular.module('BlocChat', [
     var firebaseRef = new Firebase("https://bloc-chat1.firebaseio.com/");
     var rooms = $firebaseArray(firebaseRef);
 
-    // create a new chatroom
-    rooms.$add({ foo: "bar" }).then(function(firebaseRef) {
-      var id = firebaseRef.key();
-      console.log("Added record with id " + id);
-      rooms.$indexFor(id);
-    });
+    // // create a new chatroom
+    // rooms.$add({ foo: "bar" }).then(function(firebaseRef) {
+    //   var id = firebaseRef.key();
+    //   console.log("Added record with id " + id);
+    //   rooms.$indexFor(id);
+    // });
 
     return {
-      all: rooms
+      all: rooms,
+
+      add: function(roomName) {
+        // create a new chatroom
+        rooms.$add({ foo: "bar" }).then(function(firebaseRef) {
+        var id = firebaseRef.key();
+        console.log("Added record with id " + id);
+        });
+      }
     }
   }])
