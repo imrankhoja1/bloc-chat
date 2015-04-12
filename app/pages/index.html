@@ -14,8 +14,7 @@
     <!-- firebase integration -->
     <script src="https://cdn.firebase.com/js/client/2.2.2/firebase.js"></script>
     <!-- end firebase -->
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
     <title>Bloc Chat</title>
   </head>
   <body ng-controller='HomeController'>
@@ -25,11 +24,7 @@
         <div class="room-list">
           <div class="chat-title">
             <h1 class="header">Bloc Chat</h1>
-            <button ng-click="createRoom()" class="header btn btn-default">New Room</button>
-            <!-- button triggered input -->
-            <div class="input-group">
-            <input type="text" class="form-control" placeholder="Enter the name of the chatroom">
-            </div>
+            <button ng-controller="ModalController" ng-click="open()" class="header btn btn-default">New Room</button>
           </div>
           <ul ng-repeat="room in rooms">
             <li class="rooms">{{room.$id}}</li>
@@ -39,6 +34,8 @@
       <div class="col-md-9">
         <h1>Chat</h1>
         <div class="chat-container">
+        
+
         </div>
         <div class="input-group chat-input">
           <textarea class="form-control custom-control" rows="3" style="resize:none" placeholder="Hola! Enter your message."></textarea>
@@ -51,6 +48,7 @@
     <!-- AngularFire -->
     <script src="https://cdn.firebase.com/libs/angularfire/1.0.0/angularfire.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.13/angular-ui-router.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap.js"></script>
     <script src="/js/app.js"></script>
   </body>
 </html>
