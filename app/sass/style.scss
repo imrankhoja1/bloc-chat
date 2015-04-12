@@ -1,17 +1,19 @@
-.room-list {
+.room-container {
   background: blue;
   opacity: 1;
   height: 960px;
 }
 
-.header {
+.title {
   display: inline-block;
   margin-right: 15px;
+  height: 36px;
+  margin-right: 20px;
   margin-bottom: 0;
+  vertical-align: bottom;
 }
 
 .chat-title {
-  display: inline-block;
   width: 100%;
   }
 
@@ -25,9 +27,22 @@
   overflow: scroll;
 }
 
+.room-list {
+  margin-top: 15px;
+}
+
 .rooms {
   list-style: none;
   font-size: 16px;
   font-weight: bold;
   color: white;
+}
+
+.message-info {
+  display: inline;
+}
+
+i.message-info {
+  float: right;
+  padding-right: 5%;
 }
