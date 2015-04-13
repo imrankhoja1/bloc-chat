@@ -9,39 +9,38 @@ var app = angular.module('BlocChat', [
     // get list of rooms from factory
     $scope.rooms = Room.all;
 
-    $scope.createRoom = function() {
-      // trigger modal
-      $scope.open();
-      Room.add();
-    }
   }]);
 
-  app.controller('ModalController', function($scope, $modal){
-    console.log("Hello guys, I figured it out!");
+// create two of these to allow for username.
+app.controller('ModalCtrl', ['$scope', '$modal', '$log', 'Room', function($scope, $modal, $log, Room) {
 
-    $scope.items = ["item1"];
-    $scope.open = function() {
 
-      var modalInstance = $modal.open({
-        
-        templateUrl: 'templates/new-chat.html',
-        controller: 'ModalController',
-        resolve: {
-          items: function() {
-            return $scope.items;
-          }
-        }
-      });
+    $scope.open = function (size) {
 
-      $scope.ok = function() {
-        $modalInstance.close();
-      };
+        var modalInstance = $modal.open({
+            templateUrl: '/templates/new-chat.html',
+            controller: 'ModalInstanceCtrl',
+            size: size
+        });
 
-      $scope.cancel = function() {
-        $modalInstance.dismiss('cancel');
-      };
-  }
-  });
+        modalInstance.result.then(function (roomName) { 
+          Room.add(roomName);
+        }, function () {
+          $log.info('Modal dismissed at: ' + new Date());
+        });
+    };
+}]);
+
+app.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'Room', function($scope, $modalInstance, Room) {
+
+    $scope.ok = function (roomName) {
+      $modalInstance.close(roomName);
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss();
+    };
+}]);
 
   app.factory('Room', ['$firebaseArray', function($firebaseArray) {
     var firebaseRef = new Firebase("https://bloc-chat1.firebaseio.com/");
@@ -52,10 +51,14 @@ var app = angular.module('BlocChat', [
 
       add: function(roomName) {
         // create a new chatroom
-        rooms.$add({ foo: "bar" }).then(function(firebaseRef) {
+        debugger;
+        rooms.$add({ displayName: roomName }).then(function(firebaseRef) {
         var id = firebaseRef.key();
         console.log("Added record with id " + id);
         });
+      },
+      messages: function(roomId) {
+        return rooms.orderByChild(roomId);
       }
     }
   }])
