@@ -14,8 +14,7 @@
     <!-- firebase integration -->
     <script src="https://cdn.firebase.com/js/client/2.2.2/firebase.js"></script>
     <!-- end firebase -->
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
     <title>Bloc Chat</title>
   </head>
   <body ng-controller='HomeController'>
@@ -25,7 +24,7 @@
         <div class="room-container">
           <div class="chat-title">
             <h2 class="title">Bloc Chat</h2>
-            <button ng-click="createRoom()" class="title btn btn-default">New Room</button>
+            <button ng-controller="ModalCtrl" ng-click="open()" class="title btn btn-default">New Room</button>
           </div>
           <div class="room-list">
             <ul ng-repeat="room in rooms">
@@ -64,6 +63,7 @@
     <!-- AngularFire -->
     <script src="https://cdn.firebase.com/libs/angularfire/1.0.0/angularfire.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.13/angular-ui-router.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.js"></script>
     <script src="/js/app.js"></script>
   </body>
 </html>
