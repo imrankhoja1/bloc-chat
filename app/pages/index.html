@@ -25,10 +25,11 @@
           <div class="chat-title">
             <h2 class="title">Bloc Chat</h2>
             <button ng-controller="ModalCtrl" ng-click="open()" class="title btn btn-default">New Room</button>
+            <button ng-controller="UserCtrl" ng-click="setUsername()" class="title btn btn-default">New Room</button>
           </div>
           <div class="room-list">
             <ul ng-repeat="room in rooms">
-              <li class="rooms">{{room.$id}}</li>
+              <li class="rooms" ng-click="selectRoom(room.$id)">{{room.displayName}}</li>
             </ul>
           </div>
         </div>
@@ -38,10 +39,10 @@
         <div class="chat-container">
           <table class="table table-striped">
             <tr>
-              <td>
-                  <h5 class="message-info">Name</h5>
-                  <i class="message-info">Time</i>
-                  <p>Chat message</p>
+              <td ng-repeat="message in messages">
+                  <h5 class="message-info">{{message.username}}</h5>
+                  <i class="message-info">{{message.sentAt}}</i>
+                  <p>{{message.content}}</p>
              </td>
             </tr>
             <tr>
