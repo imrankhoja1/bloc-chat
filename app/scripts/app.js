@@ -2,22 +2,28 @@ var app = angular.module('BlocChat', [
   'firebase',
   'ui.router',
   'ui.bootstrap'
+  //'ngCookies'
   ])
+  
+  //TODO modal
+  // app.run(['$cookies', '$modal', function($cookies, $modal) {
+  //   if (!cookies.blocChatCurrentUser || $cookies.blocChatCurrentUser === '' ) {
+
+  //   }
+  // }])
 
   app.controller('HomeController', ['$scope', 'Room', function($scope, Room) {
 
     var currentRoom = null;
     // get list of rooms from factory
     $scope.rooms = Room.all;
-    debugger;
 
     $scope.selectRoom = function(roomId) {
       currentRoom = Room.getRoomById(roomId);
-      parseMessages(currentRoom);
-    }
-
-    parseMessages = function(currentRoom) {
-      return currentRoom.val();
+      Room.parseMessages(currentRoom, function (messages) {
+        // attach messages to a scope variable so they can be accessed in view
+        $scope.displayMessages = messages.val();
+      });
     }
   }]);
 
@@ -82,7 +88,7 @@ app.controller('UserInstanceCtrl', ['$scope', '$modalInstance', function($scope,
   app.service('Room', ['$firebaseArray', function($firebaseArray) {
     var firebaseRef = new Firebase("https://bloc-chat1.firebaseio.com/");
     var rooms = $firebaseArray(firebaseRef);
-    var currentRoom = rooms.first;
+    var currentRoom = undefined;
     var user = null;
 
     return {
@@ -100,11 +106,14 @@ app.controller('UserInstanceCtrl', ['$scope', '$modalInstance', function($scope,
       },
       getRoomById: function(roomId) {
         console.log("https://bloc-chat1.firebaseio.com/" + roomId);
-        return new Firebase("https://bloc-chat1.firebaseio.com/" + roomId).child("messages").on("value", function(messages) { window.messages = messages });
+        return new Firebase("https://bloc-chat1.firebaseio.com/" + roomId);
       },
       setUsername: function(username) {
         user = username;
         console.log(user);
+      },
+      parseMessages: function(room, callback) {
+        room.child("messages").on("value", callback);
       }
     }
   }])

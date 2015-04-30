@@ -15,6 +15,7 @@
     <script src="https://cdn.firebase.com/js/client/2.2.2/firebase.js"></script>
     <!-- end firebase -->
 
+    <script src"https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.24/angular-cookies.min.js"></script>
     <title>Bloc Chat</title>
   </head>
   <body ng-controller='HomeController'>
@@ -38,18 +39,12 @@
         <h3>Chat</h3>
         <div class="chat-container">
           <table class="table table-striped">
-            <tr>
-              <td ng-repeat="message in messages">
+            <tr ng-repeat="message in displayMessages">
+              <td>
                   <h5 class="message-info">{{message.username}}</h5>
                   <i class="message-info">{{message.sentAt}}</i>
                   <p>{{message.content}}</p>
              </td>
-            </tr>
-            <tr>
-            <td>Chat message</td>
-            </tr>
-            <tr>
-            <td>Chat message</td>
             </tr>
           </table>
         </div>
