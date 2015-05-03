@@ -42,15 +42,15 @@
             <tr ng-repeat="message in displayMessages">
               <td>
                   <h5 class="message-info">{{message.username}}</h5>
-                  <i class="message-info">{{message.sentAt}}</i>
+                  <i class="message-info">{{message.sentAt * 1000}}</i>
                   <p>{{message.content}}</p>
              </td>
             </tr>
           </table>
         </div>
         <div class="input-group chat-input">
-          <textarea class="form-control custom-control" rows="3" style="resize:none" placeholder="Hola! Enter your message."></textarea>
-          <span class="input-group-addon btn btn-secondary">Send</span>
+          <textarea class="form-control custom-control" rows="3" style="resize:none" placeholder="Hola! Enter your message." ng-model="msg"></textarea>
+          <span class="input-group-addon btn btn-secondary" ng-click="sendMsg(msg)">Send</span>
         </div>
       </div>
     </div>

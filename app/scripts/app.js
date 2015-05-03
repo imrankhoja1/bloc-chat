@@ -25,6 +25,10 @@ var app = angular.module('BlocChat', [
         $scope.displayMessages = messages.val();
       });
     }
+
+    $scope.sendMsg = function(msg) {
+      Room.sendMsg(currentRoom, msg);
+    }
   }]);
 
 // first modal for NewRoom.
@@ -114,6 +118,14 @@ app.controller('UserInstanceCtrl', ['$scope', '$modalInstance', function($scope,
       },
       parseMessages: function(room, callback) {
         room.child("messages").on("value", callback);
+      },
+      sendMsg: function(currentRoom, msg) {
+        console.log(currentRoom);
+        var messageListRef = new Firebase(currentRoom + "/messages");
+        var newMessageRef = messageListRef.push();
+        var timestamp = new Date();
+        // update this with the correct timestamp code
+        newMessageRef.set({'content': msg, 'sentAt': timestamp, 'username': user});
       }
     }
   }])
