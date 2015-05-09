@@ -15,7 +15,6 @@
     <script src="https://cdn.firebase.com/js/client/2.2.2/firebase.js"></script>
     <!-- end firebase -->
 
-    <script src"https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.24/angular-cookies.min.js"></script>
     <title>Bloc Chat</title>
   </head>
   <body ng-controller='HomeController'>
@@ -26,7 +25,6 @@
           <div class="chat-title">
             <h2 class="title">Bloc Chat</h2>
             <button ng-controller="ModalCtrl" ng-click="open()" class="title btn btn-default">New Room</button>
-            <button ng-controller="UserCtrl" ng-click="setUsername()" class="title btn btn-default">New Room</button>
           </div>
           <div class="room-list">
             <ul ng-repeat="room in rooms">
@@ -42,7 +40,7 @@
             <tr ng-repeat="message in displayMessages">
               <td>
                   <h5 class="message-info">{{message.username}}</h5>
-                  <i class="message-info">{{message.sentAt * 1000}}</i>
+                  <i class="message-info">{{message.sentAt | formatDate}}</i>
                   <p>{{message.content}}</p>
              </td>
             </tr>
@@ -59,7 +57,9 @@
     <!-- AngularFire -->
     <script src="https://cdn.firebase.com/libs/angularfire/1.0.0/angularfire.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.13/angular-ui-router.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.24/angular-cookies.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.js"></script>
     <script src="/js/app.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
   </body>
 </html>

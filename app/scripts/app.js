@@ -1,16 +1,34 @@
 var app = angular.module('BlocChat', [
   'firebase',
   'ui.router',
-  'ui.bootstrap'
-  //'ngCookies'
+  'ui.bootstrap',
+  'ngCookies'
   ])
-  
-  //TODO modal
-  // app.run(['$cookies', '$modal', function($cookies, $modal) {
-  //   if (!cookies.blocChatCurrentUser || $cookies.blocChatCurrentUser === '' ) {
 
-  //   }
-  // }])
+app.filter("formatDate", function () {
+  return function (timestamp) {
+    return moment(timestamp).fromNow();
+  };
+});
+  
+ // TODO modal
+  app.run(['$cookies', '$modal', 'Room', function($cookies, $modal, Room) {
+    //cookies are set here if no user is defined
+    if ($cookies.user == undefined || $cookies.user === '' ) {
+      var modal = $modal.open({
+          templateUrl: '/templates/set-username.html',
+          controller: 'UserInstanceCtrl',
+          backdrop: 'static'
+      });
+
+      modal.result.then(function (username) { 
+        Room.setUsername(username);
+      }, function () {
+        console.log('Modal dismissed at: ' + new Date());
+        $modal.close();
+      });
+    }
+  }])
 
   app.controller('HomeController', ['$scope', 'Room', function($scope, Room) {
 
@@ -28,8 +46,10 @@ var app = angular.module('BlocChat', [
 
     $scope.sendMsg = function(msg) {
       Room.sendMsg(currentRoom, msg);
+      $scope.msg = null;
     }
   }]);
+
 
 // first modal for NewRoom.
 app.controller('ModalCtrl', ['$scope', '$modal', '$log', 'Room', function($scope, $modal, $log, Room) {
@@ -85,15 +105,18 @@ app.controller('UserCtrl', ['$scope', '$modal', '$log', 'Room', function($scope,
 app.controller('UserInstanceCtrl', ['$scope', '$modalInstance', function($scope, $modalInstance) {
 
     $scope.ok = function (username) {
+     console.log(username);
+     if (username != undefined) {
       $modalInstance.close(username);
+      }
     };
 }]);
 
-  app.service('Room', ['$firebaseArray', function($firebaseArray) {
+  app.service('Room', ['$firebaseArray', '$cookies', function($firebaseArray, $cookies) {
     var firebaseRef = new Firebase("https://bloc-chat1.firebaseio.com/");
     var rooms = $firebaseArray(firebaseRef);
     var currentRoom = undefined;
-    var user = null;
+    var user = $cookies.user; // this might be undefined
 
     return {
       all: rooms,
@@ -114,18 +137,18 @@ app.controller('UserInstanceCtrl', ['$scope', '$modalInstance', function($scope,
       },
       setUsername: function(username) {
         user = username;
+        $cookies.user = username;
         console.log(user);
       },
       parseMessages: function(room, callback) {
         room.child("messages").on("value", callback);
       },
       sendMsg: function(currentRoom, msg) {
-        console.log(currentRoom);
-        var messageListRef = new Firebase(currentRoom + "/messages");
-        var newMessageRef = messageListRef.push();
-        var timestamp = new Date();
-        // update this with the correct timestamp code
-        newMessageRef.set({'content': msg, 'sentAt': timestamp, 'username': user});
+          console.log(currentRoom);
+          var messageListRef = new Firebase(currentRoom + "/messages");
+          var newMessageRef = messageListRef.push();
+          var timestamp = new Date();
+          newMessageRef.set({'content': msg, 'sentAt': Date.now(), 'username': user});
       }
     }
   }])
