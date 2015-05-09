@@ -14,6 +14,8 @@ app.filter("formatDate", function () {
  // TODO modal
   app.run(['$cookies', '$modal', 'Room', function($cookies, $modal, Room) {
     //cookies are set here if no user is defined
+    $cookies.user = undefined;
+
     if ($cookies.user == undefined || $cookies.user === '' ) {
       var modal = $modal.open({
           templateUrl: '/templates/set-username.html',
@@ -105,9 +107,9 @@ app.controller('UserCtrl', ['$scope', '$modal', '$log', 'Room', function($scope,
 app.controller('UserInstanceCtrl', ['$scope', '$modalInstance', function($scope, $modalInstance) {
 
     $scope.ok = function (username) {
-     console.log(username);
-     if (username != undefined) {
-      $modalInstance.close(username);
+
+      if ((username != undefined) && (isNaN(username))) {
+        $modalInstance.close(username);
       }
     };
 }]);
