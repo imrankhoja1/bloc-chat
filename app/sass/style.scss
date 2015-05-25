@@ -1,7 +1,12 @@
 .room-container {
-  background: blue;
+  background: #00BCD4;
   opacity: 1;
-  height: 960px;
+}
+
+.column {
+  float: left;
+  padding-bottom: 1000px;
+  margin-bottom: -1000px;
 }
 
 .title {
@@ -17,10 +22,14 @@
   width: 100%;
   }
 
+.ui-group {
+  overflow: hidden;
+}
 .chat-container {
   width: 100%;
   height: 650px;
   overflow: scroll;
+  color: #006064;
 }
 .chat-input {
   width: 100%;
@@ -35,7 +44,7 @@
   list-style: none;
   font-size: 16px;
   font-weight: bold;
-  color: white;
+  color: #006064;
 }
 
 .message-info {
@@ -52,6 +61,17 @@ i.message-info {
   width: 100%;
 }
 
-.button {
-  background-color: blue;
+.btn.btn-default.submit {
+  background-color: #E0F7FA;
+  color: #00B8D4;
+  background-image: none;
+  border-color: #00B8D4;
+}
+
+.modal-header {
+  border-bottom: none;
+}
+
+.modal-footer {
+  border-top: none;
 }

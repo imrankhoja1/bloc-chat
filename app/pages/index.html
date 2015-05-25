@@ -19,12 +19,12 @@
   </head>
   <body ng-controller='HomeController'>
     <div class="container-fluid">
-    <div class="row">
+    <div class="row ui-group">
       <div class="col-md-3">
-        <div class="room-container">
+        <div class="room-container column">
           <div class="chat-title">
-            <h2 class="title">Bloc Chat</h2>
-            <button ng-controller="ModalCtrl" ng-click="open()" class="title btn btn-default">New Room</button>
+            <h2 class="title header">Bloc Chat</h2>
+            <button ng-controller="ModalCtrl" ng-click="open()" class="title btn btn-default submit">New Room</button>
           </div>
           <div class="room-list">
             <ul ng-repeat="room in rooms">
@@ -34,7 +34,7 @@
         </div>
       </div>
       <div class="col-md-9">
-        <h3>Chat</h3>
+        <h3>{{room.currentRoom}}</h3>
         <div class="chat-container">
           <table class="table table-striped">
             <tr ng-repeat="message in displayMessages">

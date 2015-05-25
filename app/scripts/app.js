@@ -13,10 +13,15 @@ app.filter("formatDate", function () {
   
  // TODO modal
   app.run(['$cookies', '$modal', 'Room', function($cookies, $modal, Room) {
-    //cookies are set here if no user is defined
-    $cookies.user = undefined;
-
-    if ($cookies.user == undefined || $cookies.user === '' ) {
+   
+    var firebaseRef = new Firebase("https://bloc-chat1.firebaseio.com/");
+    firebaseRef.authWithOAuthPopup("google", function(error, authData) {
+    if (error) {
+      console.log("Login Failed!", error);
+    } else {
+      console.log("Authenticated successfully with payload:", authData);
+      //cookies are set here if no user is defined
+      if ($cookies.user == undefined || $cookies.user === '' ) {
       var modal = $modal.open({
           templateUrl: '/templates/set-username.html',
           controller: 'UserInstanceCtrl',
@@ -30,6 +35,8 @@ app.filter("formatDate", function () {
         $modal.close();
       });
     }
+    }
+    });
   }])
 
   app.controller('HomeController', ['$scope', 'Room', function($scope, Room) {
@@ -43,6 +50,7 @@ app.filter("formatDate", function () {
       Room.parseMessages(currentRoom, function (messages) {
         // attach messages to a scope variable so they can be accessed in view
         $scope.displayMessages = messages.val();
+        $scope.currentRoom = Room.currentRoom;
       });
     }
 
@@ -130,7 +138,6 @@ app.controller('UserInstanceCtrl', ['$scope', '$modalInstance', function($scope,
         rooms.$add({ displayName: roomName }).then(function(firebaseRef) {
         var id = firebaseRef.key();
         console.log("Added record with id " + id);
-        // seems like you'd ideally want a prompt here to capture the username
         });
       },
       getRoomById: function(roomId) {
